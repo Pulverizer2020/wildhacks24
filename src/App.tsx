@@ -1,11 +1,11 @@
-import SearchBar from './components/searchbar'
-import './App.css'
+import Map from "./components/map";
 
 function App() {
-
   return (
-    <SearchBar/>
-  )
+    <>
+      <Map />
+    </>
+  );
 }
 
-export default App
+export default App;
