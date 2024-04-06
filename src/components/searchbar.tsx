@@ -1,4 +1,5 @@
 import React, { useState } from 'react'; // Import React and useState
+import Map from '../components/map'
 
 const SearchBar: React.FC = () => {
     const [inputValue, setInputValue] = useState(''); // Initial state is an empty string
@@ -16,6 +17,7 @@ const SearchBar: React.FC = () => {
             const data = await response.json();
             if (data && data.length > 0) {
                 setLocationInfo(data[0]);
+                console.log(locationInfo)
             } else {
                 setLocationInfo(null);
             }
@@ -40,15 +42,9 @@ const SearchBar: React.FC = () => {
                 />
             </form>
             {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
-            <button onClick = {handleSearch}>Start Map</button>
+            <button onClick = {handleSearch}>Find Map</button>
             
-            {locationInfo && (
-                            <div>
-                                <h2>Location Details:</h2>
-                                <p>Latitude: {locationInfo.lat}</p>
-                                <p>Longitude: {locationInfo.lon}</p>
-                            </div>
-            )}
+        <Map locationInfo = {locationInfo} />
         </div>
     );
 }
