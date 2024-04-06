@@ -42,7 +42,7 @@ const SearchBar: React.FC = () => {
                 />
             </form>
             {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
-            <button onClick = {handleSearch}>Find Map</button>
+            <button type="submit" onClick = {handleSearch}>Find Map</button>
             
         <Map locationInfo = {locationInfo} />
         </div>
