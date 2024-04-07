@@ -35,6 +35,11 @@ const Post = (props: {
           <i className="fas fa-ellipsis-h pt-2 text-lg"></i>
         </span>
       </div>
+      <div>
+        <span className="flex justify-between pb-2 pl-3 font-bold text-lg">
+          {props.post.title}
+        </span>
+      </div>
       <iframe
         ref={iframeRef}
         style={{ width: "100%", height: "500px" }}
