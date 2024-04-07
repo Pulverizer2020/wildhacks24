@@ -42,6 +42,10 @@ function App() {
 
   const { currentUser } = useAuth();
 
+  const submitPost = (title: string, description: string) => {
+    console.log("title and description: " + title + " " + description);
+  }
+
   const handleUpload = (mapState: object) => {
     console.log("shapes before", mapState);
     mapState.shapes = normalFeaturesObjectToFirebaseFeaturesObject(
@@ -74,10 +78,26 @@ function App() {
                <input type="text" id="title" class="swal2-input" placeholder="Title">
                <input type="text" id="description" class="swal2-input" placeholder="Description">
           `
-              : null
+              : ''
             }
           `,
           icon: "success",
+          preConfirm: () => {
+            if (currentUser) {
+              const title = (document.getElementById('title') as HTMLInputElement)?.value || '';
+              const description = (document.getElementById('description') as HTMLInputElement)?.value || '';
+              return { title, description };
+            } else {
+              return {};
+            }
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const { title, description } = result.value;
+            if (title && description) {
+              submitPost(title, description);
+            }
+          }
         });
       })
       .catch((error) => console.error("Error writing document: ", error));
