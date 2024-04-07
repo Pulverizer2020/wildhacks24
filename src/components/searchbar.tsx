@@ -32,24 +32,25 @@ const SearchBar: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center h-16">
-      <div className="flex flex-row items-center">
-        <form className="form" onSubmit={handleSearch}>
-          {/* Added onChange handler to input */}
-          <input
-            className="w-[30vw] h-8 mr-3 rounded-md focus:outline-none hover:scale-105 duration-300"
-            type="text"
-            required
-            autoFocus
-            placeholder=" Location"
-            value={inputValue}
-            onChange={handleInputChange} // Handle input changes
-          />
-        </form>
-        {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
-        <button type="submit" onClick={handleSearch}>
-          Find Map
-        </button>
+    <div className="flex flex-row justify-center items-center mb-5 h-24">
+
+        <div className="flex flex-row items-center">
+      <form className="mr-8" onSubmit={handleSearch}>
+        {/* Added onChange handler to input */}
+        <input
+          className="w-[50vw] h-12 mr-8 pl-5 rounded-md focus:outline-none hover:scale-105 duration-300"
+          type="text"
+          required
+          autoFocus
+          placeholder=" Location"
+          value={inputValue}
+          onChange={handleInputChange} // Handle input changes
+        />
+      </form>
+      {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
+      <button style={{borderColor: "rgb(83, 237, 229)", borderWidth: 3, backgroundColor: "#FFFFFF", color: "#000000"}} className="h-12 rounded-md p-2 focus:outline-none hover:scale-105 duration-150" type="submit" onClick={handleSearch}>
+        Find Map!
+      </button>
       </div>
     </div>
   );

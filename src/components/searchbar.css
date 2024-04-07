@@ -11,3 +11,8 @@
 form {
     font-family: "DM Sans"
 };
+
+.findButton {
+ background-image: linear-gradient(45deg, blue, purple);
+ padding: 2rem;
+}

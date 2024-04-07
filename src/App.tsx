@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import SearchBar from "./components/searchbar";
+import Landing from "./components/landing";
 import Navbar from "./components/navbar";
 import Feed from "./components/feed";
 import { useSearchParams } from "react-router-dom";
@@ -94,7 +95,9 @@ function App() {
 
   return (
     <>
+
       <Navbar />
+      <Landing/>
       <Routes>
         <Route
           path="/"
