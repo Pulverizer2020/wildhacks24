@@ -20,14 +20,14 @@ const Post = (props: {
   return (
     <div
       key={props.index}
-      className="rounded-3xl overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
+      className="rounded-3xl overflow-hidden border w-full sm:w-[500px]  bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
     >
       <div className="w-full flex justify-between p-3 outline-gray-500">
         <div className="flex">
           <div className="rounded-full h-8 w-8 bg-gray-500 flex items-center justify-center overflow-hidden">
             <img src={props.post.profilePicUrl} alt="profilepic"></img>
           </div>
-          <span className="pt-1 ml-2 font-bold text-sm">
+          <span className="my-auto ml-2 font-bold text-sm">
             {props.post.username}
           </span>
         </div>
