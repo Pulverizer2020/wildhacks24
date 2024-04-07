@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../utils/authContext";
 
 function Navbar() {
@@ -9,15 +10,20 @@ function Navbar() {
     logout();
   };
 
+  const [toggleBurger, setToggleBurger] = useState(true); // you could default to false
+
   return (
     <>
-      <nav style={{backgroundColor: "#0d1116"}} className="flex flex-wrap items-center justify-between mx-auto px-6 fixed w-full z-20 top-0 start-0 h-14">
+      <nav
+        style={{ backgroundColor: "#0d1116" }}
+        className="flex flex-wrap items-center justify-between mx-auto px-6 fixed w-full z-20 top-0 start-0 h-14"
+      >
         <a
           href={import.meta.env.VITE_HOST}
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Mapper
+            Remap.city
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -51,6 +57,9 @@ function Navbar() {
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="false"
+            onClick={() =>
+              setToggleBurger((oldToggleBurger) => !oldToggleBurger)
+            }
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -76,7 +85,7 @@ function Navbar() {
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             <li>
-              {/*Currently Selected: className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"*/}
+              {/* Currently Selected: className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" */}
               <a
                 href="/map"
                 className="block py-2 px-3 text-white rounded hover:text-[#7ff0a8] md:p-0"
@@ -96,6 +105,33 @@ function Navbar() {
           </ul>
         </div>
       </nav>
+      {toggleBurger && (
+        <div className="block md:hidden mt-16">
+          <div className="h-20">
+            <div className="w-fit mx-auto">
+              <a
+                href="/map"
+                onClick={() =>
+                  setToggleBurger((oldToggleBurger) => !oldToggleBurger)
+                }
+              >
+                Map Editor
+              </a>
+            </div>
+            <div className=" w-fit mx-auto">
+              <a
+                href="/feed"
+                onClick={() =>
+                  setToggleBurger((oldToggleBurger) => !oldToggleBurger)
+                }
+              >
+                Feed
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-5"></div>
     </>
   );
