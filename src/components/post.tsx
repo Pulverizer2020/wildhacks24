@@ -5,6 +5,7 @@ import loadMapDataToIframe from "../utils/loadMapDataToIframe";
 import hearticon from "../assets/favorite.png";
 import { PiMagicWandFill} from "react-icons/pi";
 
+
 const Post = (props: {
   post: PostType;
   index: number;
@@ -21,19 +22,24 @@ const Post = (props: {
   return (
     <div
       key={props.index}
-      className="rounded-3xl overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
+      className="rounded-3xl overflow-hidden border w-full sm:w-[500px]  bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
     >
       <div className="w-full flex justify-between p-3 outline-gray-500">
         <div className="flex">
           <div className="rounded-full h-8 w-8 bg-gray-500 flex items-center justify-center overflow-hidden">
             <img src={props.post.profilePicUrl} alt="profilepic"></img>
           </div>
-          <span className="pt-1 ml-2 font-bold text-sm">
+          <span className="my-auto ml-2 font-bold text-sm">
             {props.post.username}
           </span>
         </div>
         <span className="px-2 hover:bg-gray-300 cursor-pointer rounded">
           <i className="fas fa-ellipsis-h pt-2 text-lg"></i>
+        </span>
+      </div>
+      <div>
+        <span className="flex justify-between pb-2 pl-3 font-bold text-lg">
+          {props.post.title}
         </span>
       </div>
       <iframe
@@ -45,18 +51,25 @@ const Post = (props: {
         <div className="flex items-center justify-between text-gray-900">
           <div className="flex items-center space-x-2">
             <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
-              <img src={hearticon} style={{ width: "32px", height: "32px" }} />
+              <svg
+                fill={
+                  props.post.likes.includes(currentUser?.uid) ? "red" : "grey"
+                }
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path>
+              </svg>
+
               <div
                 onClick={() =>
                   props.handleLikeClick(props.index, props.post.postId)
                 }
               >
                 {props.post.likes.length} Likes{" "}
-                {props.post.likes.includes(currentUser?.uid) ? (
-                  <>IS LIKED</>
-                ) : (
-                  <>IS NOT LIKED</>
-                )}
               </div>
             </button>
           </div>
@@ -82,7 +95,9 @@ const Post = (props: {
                 ></path>
               </g>
             </svg>
-            <span onClick={() => props.showComments(props.index)}>
+            <span
+              onClick={() => props.showComments(props.index, props.post.postId)}
+            >
               {props.post.comments.length} Comments
             </span>
           </button>
@@ -99,12 +114,14 @@ const Post = (props: {
         </div>
         <div className="pt-2">
           <i className="far fa-heart cursor-pointer"></i>
-          <span className="text-sm text-gray-500 font-medium">Created at</span>
+          <span className="text-sm text-gray-500 font-medium">
+            Created on {props.post.createdAt.toDate().toDateString()}
+          </span>
         </div>
         <div className="pt-1">
           <div className="mb-2 text-sm">
             <span className="font-medium mr-2">{props.post.username}</span>
-            {props.post.description}
+            <span className="font-normal">{props.post.description}</span>
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">

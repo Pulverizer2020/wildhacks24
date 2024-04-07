@@ -13,9 +13,8 @@ const Landing = () => {
       </div>
       <div className="flex flex-row items-center justify-center mt-10">
         <h2 className="w-[60vw] text-center">
-          Punch in an address and start redesigning any block, anywhere on Earth
-          with our interactive map. When you're happy with what you've got, be
-          sure to post it to our forum to see what your neighbors think!
+          Punch in an address and start redesigning any block.
+          <br /> When you're done, create a sharable link!
         </h2>
       </div>
     </>
