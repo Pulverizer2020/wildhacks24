@@ -4,6 +4,12 @@ import SearchBar from "./components/searchbar";
 function App() {
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
 
+  window.onmessage = function (e) {
+    if (e.data.call === "exportMapShapes") {
+      console.log(e.data.value);
+    }
+  };
+
   return (
     <>
       <SearchBar iframeRef={iframeRef} />
