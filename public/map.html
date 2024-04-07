@@ -12,6 +12,10 @@
     
 
     <style>
+
+            body {
+                margin: 0;
+            }
            
             #export {
                 position: absolute;
@@ -33,7 +37,7 @@
 </head>
 
     <body>
-     <div id="map" style="height: 600px;">
+     <div id="map" style="height: 100vh;">
      <a id='export'>Upload</a>
 
         <script>
@@ -79,6 +83,7 @@
                 var type = e.layerType,
                     layer = e.layer;
 
+                console.log("draw:created e", e)
                 console.log("layer", layer)
 
                 // draw to map
