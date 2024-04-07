@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Import React and useState
-import "../components/searchbar.css"
+import "./searchbar.css";
 
 type Props = {
   iframeRef: React.MutableRefObject<HTMLIFrameElement>;
