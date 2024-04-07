@@ -1,6 +1,5 @@
 import React, { useState } from "react"; // Import React and useState
 
-import FirestoreLink from "./firestorelink";
 type Props = {
     iframeRef: React.MutableRefObject<HTMLIFrameElement>;
 };
@@ -49,7 +48,6 @@ const SearchBar: React.FC<Props> = (props: Props) => {
             <button type="submit" onClick={handleSearch}>
                 Find Map
             </button>
-            <FirestoreLink />
         </div>
     );
 };
