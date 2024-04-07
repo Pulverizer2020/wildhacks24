@@ -1,12 +1,12 @@
-import heartIcon from '../assets/favorite.png'
+import heartIcon from "../assets/favorite.png";
 import React, { useState, useEffect } from "react";
 import {
-    getFirestore,
-    doc,
-    getDocs,
-    collection,
-    updateDoc,
-    Timestamp,
+  getFirestore,
+  doc,
+  getDocs,
+  collection,
+  updateDoc,
+  Timestamp,
 } from "firebase/firestore";
 
 import { useAuth } from "../utils/authContext";
@@ -15,51 +15,79 @@ import Swal from "sweetalert2";
 import Post from "./post";
 
 export type PostType = {
-    postId: string;
-    mapId: string;
-    username: string;
-    comments: [];
-    likes: string[]; // will be filled with userIds
-    createdAt: Timestamp;
-    profilePicUrl: string;
-    title: string;
-    description: string;
+  postId: string;
+  mapId: string;
+  username: string;
+  comments: { username: string; profilePicUrl: string; comment: string }[];
+  likes: string[]; // will be filled with userIds
+  createdAt: Timestamp;
+  profilePicUrl: string;
+  title: string;
+  description: string;
 };
 
 function Feed() {
-    const [posts, setPosts] = useState<PostType[]>([]);
-    const { currentUser } = useAuth();
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const { currentUser } = useAuth();
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const postsCollection = collection(db, "posts");
-            const postDocs = await getDocs(postsCollection);
-            const posts = postDocs.docs.map((doc) => ({
-                ...doc.data(),
-                postId: doc.id,
-            }));
-            console.log("posts", posts);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const postsCollection = collection(db, "posts");
+      const postDocs = await getDocs(postsCollection);
+      const posts = postDocs.docs.map((doc) => ({
+        ...doc.data(),
+        postId: doc.id,
+      }));
+      console.log("posts", posts);
 
-            // Sort posts from most recent to oldest
-            posts.sort(
-                (a, b) =>
-                    new Date(b.postedTime).getTime() - new Date(a.postedTime).getTime()
-            );
+      // Sort posts from most recent to oldest
+      posts.sort(
+        (a, b) =>
+          new Date(b.postedTime).getTime() - new Date(a.postedTime).getTime()
+      );
 
-            setPosts(posts);
-        };
-
-        fetchPosts();
-    }, []);
-
-    const handleSubmitComment = (comment) => {
-        console.log("TODO: submit comment: " + comment);
-
+      setPosts(posts);
     };
 
-    const handleShowComments = (comments) => {
-        const html = comments.map(comment =>
-            `<div >
+    fetchPosts();
+  }, []);
+
+  const handleSubmitComment = (
+    postIndex: number,
+    postId: string,
+    comment: string
+  ) => {
+    if (!currentUser) {
+      Swal.fire({
+        icon: "info",
+        title: "You need to log in to user this feature!",
+      });
+      return;
+    }
+
+    const postDocRef = doc(db, "posts", postId);
+    const newComments = [
+      ...posts[postIndex].comments,
+      {
+        username: currentUser.displayName ?? "",
+        profilePicUrl: currentUser.photoURL ?? "",
+        comment: comment,
+      },
+    ];
+    updateDoc(postDocRef, {
+      comments: newComments,
+    });
+    setPosts((prevPosts) => {
+      prevPosts[postIndex].comments = newComments;
+      return [...prevPosts];
+    });
+  };
+
+  const handleShowComments = (postIndex: number, postId: string) => {
+    const html = posts[postIndex].comments
+      .map(
+        (comment) =>
+          `<div >
                   <article class="p-6 mb-3 text-base bg-white border-b border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                   <footer class="flex justify-between items-center mb-2">
                       <div class="flex items-center">
@@ -101,11 +129,15 @@ function Feed() {
                   <p class="text-left text-gray-600">${comment.comment}</p>
               </article>
                 </div>`
-        ).join('');
-        Swal.fire({
-            html: `<div class="flex justify-between items-center mb-6">
+      )
+      .join("");
+    Swal.fire({
+      html:
+        `<div class="flex justify-between items-center mb-6">
             <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Comments</h2>
-        </div>` + html + `<div class="max-w-2xl mx-auto px-4">
+        </div>` +
+        html +
+        `<div class="max-w-2xl mx-auto px-4">
             <div class="mb-6">
                 <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                     <label for="comment" class="sr-only">Your comment</label>
@@ -113,80 +145,89 @@ function Feed() {
                 </div>
             </div>
         </div>`,
-            width: 800,
-            showCancelButton: true,
-            confirmButtonText: 'Post comment',
-            focusConfirm: false,
-            didOpen: () => {
-                const popup = Swal.getPopup()!
-                const commentInput = popup.querySelector('#comment') as HTMLInputElement
-                commentInput.focus()
-                commentInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
-            },
-            preConfirm: () => {
-                const comment = (document.getElementById('comment') as HTMLInputElement).value
-                if (!comment) {
-                    Swal.showValidationMessage(`Please enter a comment`)
-                }
-                return comment
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const comment = result.value
-                handleSubmitComment(comment)
-            }
-        });
-    };
-
-    const db = getFirestore();
-
-    const handleLikeClick = (index: number, postId: string) => {
-        if (!currentUser) {
-            Swal.fire({
-                icon: "info",
-                title: "You need to log in to user this feature!",
-            });
-            return;
+      width: 800,
+      showCancelButton: true,
+      confirmButtonText: "Post comment",
+      focusConfirm: false,
+      didOpen: () => {
+        const popup = Swal.getPopup()!;
+        const commentInput = popup.querySelector(
+          "#comment"
+        ) as HTMLInputElement;
+        commentInput.focus();
+        commentInput.onkeyup = (event) =>
+          event.key === "Enter" && Swal.clickConfirm();
+      },
+      preConfirm: () => {
+        const comment = (document.getElementById("comment") as HTMLInputElement)
+          .value;
+        if (!comment) {
+          Swal.showValidationMessage(`Please enter a comment`);
         }
+        return comment;
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const comment = result.value;
+        handleSubmitComment(postIndex, postId, comment);
+      }
+    });
+  };
 
-        // like photo
-        if (!posts[index].likes.includes(currentUser.uid)) {
-            console.log("LIKING PHOTO");
-            const postDocRef = doc(db, "posts", postId);
-            const newLikes = [...posts[index].likes, currentUser.uid];
-            updateDoc(postDocRef, {
-                likes: newLikes,
-            });
-            setPosts((prevPosts) => {
-                prevPosts[index].likes = newLikes;
-                return [...prevPosts];
-            });
-        }
+  const db = getFirestore();
 
-        // unlike photo
-        else {
-            console.log("UNLIKING PHOTO");
-            const postDocRef = doc(db, "posts", postId);
-            const indexOfMyLike = posts[index].likes.indexOf(currentUser.uid);
-            const newLikes = posts[index].likes;
-            newLikes.splice(indexOfMyLike, 1);
-            updateDoc(postDocRef, {
-                likes: newLikes,
-            });
-            setPosts((prevPosts) => {
-                prevPosts[index].likes = newLikes;
-                return [...prevPosts];
-            });
-        }
-    };
+  const handleLikeClick = (postIndex: number, postId: string) => {
+    if (!currentUser) {
+      Swal.fire({
+        icon: "info",
+        title: "You need to log in to user this feature!",
+      });
+      return;
+    }
 
-    return (
-        <div className="pt-20 flex flex-col min-h-screen justify-center items-center">
-            {posts.map((post, index) => (
-                <Post post={post} index={index} handleLikeClick={handleLikeClick} showComments={handleShowComments} />
-            ))}
-        </div>
-    );
+    // like photo
+    if (!posts[index].likes.includes(currentUser.uid)) {
+      console.log("LIKING PHOTO");
+      const postDocRef = doc(db, "posts", postId);
+      const newLikes = [...posts[index].likes, currentUser.uid];
+      updateDoc(postDocRef, {
+        likes: newLikes,
+      });
+      setPosts((prevPosts) => {
+        prevPosts[index].likes = newLikes;
+        return [...prevPosts];
+      });
+    }
+
+    // unlike photo
+    else {
+      console.log("UNLIKING PHOTO");
+      const postDocRef = doc(db, "posts", postId);
+      const indexOfMyLike = posts[index].likes.indexOf(currentUser.uid);
+      const newLikes = posts[index].likes;
+      newLikes.splice(indexOfMyLike, 1);
+      updateDoc(postDocRef, {
+        likes: newLikes,
+      });
+      setPosts((prevPosts) => {
+        prevPosts[index].likes = newLikes;
+        return [...prevPosts];
+      });
+    }
+  };
+
+  return (
+    <div className="pt-20 flex flex-col min-h-screen justify-center items-center">
+      {posts.map((post, index) => (
+        <Post
+          post={post}
+          index={index}
+          handleLikeClick={handleLikeClick}
+          showComments={handleShowComments}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default Feed;

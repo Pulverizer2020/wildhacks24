@@ -7,8 +7,8 @@ import hearticon from "../assets/favorite.png";
 const Post = (props: {
   post: PostType;
   index: number;
-  handleLikeClick: (index: number, postId: string) => void;
-  showComments: (comments: any[]) => void;
+  handleLikeClick: (postIndex: number, postId: string) => void;
+  showComments: (postIndex: number, postId: string) => void;
 }) => {
   const { currentUser } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
@@ -81,7 +81,9 @@ const Post = (props: {
                 ></path>
               </g>
             </svg>
-            <span>{props.post.comments.length} Comments</span>
+            <span onClick={() => props.showComments(props.index)}>
+              {props.post.comments.length} Comments
+            </span>
           </button>
 
           <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
@@ -118,14 +120,12 @@ const Post = (props: {
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">
-          <button onClick={() => props.showComments(props.post.comments)}>View all {props.post.comments.length} comments</button>
+          <button
+            onClick={() => props.showComments(props.index, props.post.postId)}
+          >
+            View all {props.post.comments.length} comments
+          </button>
         </div>
-        {/*
-                            <div className="mb-2">
-                                <div className="mb-2 text-sm">
-                                    <span className="font-medium mr-2">razzle_dazzle</span> Dude! How cool! I went to New Zealand last summer and had a blast taking the tour! So much to see! Make sure you bring a good camera when you go!
-                            </div>
-                    </div>*/}
       </div>
     </div>
   );
