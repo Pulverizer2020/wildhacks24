@@ -186,15 +186,15 @@ function Feed() {
     }
 
     // like photo
-    if (!posts[index].likes.includes(currentUser.uid)) {
+    if (!posts[postIndex].likes.includes(currentUser.uid)) {
       console.log("LIKING PHOTO");
       const postDocRef = doc(db, "posts", postId);
-      const newLikes = [...posts[index].likes, currentUser.uid];
+      const newLikes = [...posts[postIndex].likes, currentUser.uid];
       updateDoc(postDocRef, {
         likes: newLikes,
       });
       setPosts((prevPosts) => {
-        prevPosts[index].likes = newLikes;
+        prevPosts[postIndex].likes = newLikes;
         return [...prevPosts];
       });
     }
@@ -203,14 +203,14 @@ function Feed() {
     else {
       console.log("UNLIKING PHOTO");
       const postDocRef = doc(db, "posts", postId);
-      const indexOfMyLike = posts[index].likes.indexOf(currentUser.uid);
-      const newLikes = posts[index].likes;
+      const indexOfMyLike = posts[postIndex].likes.indexOf(currentUser.uid);
+      const newLikes = posts[postIndex].likes;
       newLikes.splice(indexOfMyLike, 1);
       updateDoc(postDocRef, {
         likes: newLikes,
       });
       setPosts((prevPosts) => {
-        prevPosts[index].likes = newLikes;
+        prevPosts[postIndex].likes = newLikes;
         return [...prevPosts];
       });
     }

@@ -9,7 +9,7 @@ import { useSearchParams } from "react-router-dom";
 // Consider importing a LoginForm component to handle logging in the user.
 // import LoginForm from "./components/LoginForm";
 
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
 
 import { normalFeaturesObjectToFirebaseFeaturesObject } from "./utils/firestoreObjectSerialization";
@@ -42,12 +42,28 @@ function App() {
 
   const { currentUser } = useAuth();
 
+  const submitPost = (title: string, description: string, postId: string) => {
+    console.log("title and description: " + title + " " + description);
+
+    const mapDocRef = doc(db, "posts", postId);
+    updateDoc(mapDocRef, {
+      title: title,
+      description: description,
+    })
+      .then(() => console.log("post title and description upload success!"))
+      .catch((err) =>
+        console.log("post title and description upload error", err)
+      );
+  };
+
   const handleUpload = (mapState: object) => {
     console.log("shapes before", mapState);
     mapState.shapes = normalFeaturesObjectToFirebaseFeaturesObject(
       mapState.shapes
     );
     console.log("formattedShapes", mapState);
+
+    const postUUID = nanoid(8);
 
     const mapUUID = nanoid(8);
     const mapDocRef = doc(db, "maps", mapUUID);
@@ -59,12 +75,14 @@ function App() {
           confirmButtonText: "Submit",
           html: `
           Here is the sharable link for your map: 
-          <a style="color: #60a5fa;" href=${import.meta.env.VITE_HOST
-            }/#${mapUUID}>
+          <a style="color: #60a5fa;" href=${
+            import.meta.env.VITE_HOST
+          }/#${mapUUID}>
             ${import.meta.env.VITE_HOST}/#${mapUUID}
           </a>
 
-          ${currentUser
+          ${
+            currentUser
               ? `
               <br />
               <br />
@@ -74,17 +92,36 @@ function App() {
                <input type="text" id="title" class="swal2-input" placeholder="Title">
                <input type="text" id="description" class="swal2-input" placeholder="Description">
           `
-              : null
-            }
+              : ""
+          }
           `,
           icon: "success",
+          preConfirm: () => {
+            if (currentUser) {
+              const title =
+                (document.getElementById("title") as HTMLInputElement)?.value ||
+                "";
+              const description =
+                (document.getElementById("description") as HTMLInputElement)
+                  ?.value || "";
+              return { title, description };
+            } else {
+              return {};
+            }
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const { title, description } = result.value;
+            if (title && description) {
+              submitPost(title, description, postUUID);
+            }
+          }
         });
       })
       .catch((error) => console.error("Error writing document: ", error));
 
     // if user logged in, then post
     if (currentUser) {
-      const postUUID = nanoid(8);
       const postData = {
         mapId: mapUUID,
         username: currentUser.displayName,
@@ -92,8 +129,6 @@ function App() {
         likes: [], // will be filled with userIds
         createdAt: new Date(),
         profilePicUrl: currentUser.photoURL,
-        title: "Awesome Title",
-        description: "Awesome Description",
       };
       const postDocRef = doc(db, "posts", postUUID);
       setDoc(postDocRef, postData, { merge: true })
@@ -121,6 +156,7 @@ function App() {
                 style={{ width: "100%", height: "500px" }}
                 src="editMap.html"
               />
+              <div className="h-20"></div>
             </>
           }
         />
@@ -135,6 +171,7 @@ function App() {
                 style={{ width: "100%", height: "500px" }}
                 src="editMap.html"
               />
+              <div className="h-20"></div>
             </>
           }
         />
