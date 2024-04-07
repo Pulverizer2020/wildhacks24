@@ -30,7 +30,7 @@ function Navbar() {
           {currentUser ? (
             <>
               <img
-                src={currentUser.photoURL}
+                src={currentUser.photoURL ?? ""}
                 alt="User Profile"
                 className="w-10 h-10 rounded-full mr-2"
               />

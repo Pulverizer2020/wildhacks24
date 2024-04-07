@@ -2,9 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../utils/authContext";
 import { PostType } from "./feed";
 import loadMapDataToIframe from "../utils/loadMapDataToIframe";
-import hearticon from "../assets/favorite.png";
-import { PiMagicWandFill} from "react-icons/pi";
-
+import { PiMagicWandFill } from "react-icons/pi";
 
 const Post = (props: {
   post: PostType;
@@ -53,7 +51,9 @@ const Post = (props: {
             <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
               <svg
                 fill={
-                  props.post.likes.includes(currentUser?.uid) ? "red" : "grey"
+                  props.post.likes.includes(currentUser?.uid ?? "")
+                    ? "red"
+                    : "grey"
                 }
                 stroke-width="0"
                 viewBox="0 0 512 512"
@@ -102,8 +102,8 @@ const Post = (props: {
             </span>
           </button>
 
-          <button className= "bg-[#FFD700] h-12 rounded-3xl flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
-          <PiMagicWandFill />
+          <button className="bg-[#FFD700] h-12 rounded-3xl flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
+            <PiMagicWandFill />
             <a
               href={`${import.meta.env.VITE_HOST}/map?uuid=${props.post.mapId}`}
             >

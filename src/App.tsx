@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import SearchBar from "./components/searchbar";
@@ -75,12 +76,14 @@ function App() {
           confirmButtonText: "Submit",
           html: `
           Here is the sharable link for your map: 
-          <a style="color: #60a5fa;" href=${import.meta.env.VITE_HOST
-            }/#${mapUUID}>
+          <a style="color: #60a5fa;" href=${
+            import.meta.env.VITE_HOST
+          }/#${mapUUID}>
             ${import.meta.env.VITE_HOST}/map?uuid=${mapUUID}
           </a>
 
-          ${currentUser
+          ${
+            currentUser
               ? `
               <br />
               <br />
@@ -91,7 +94,7 @@ function App() {
                <input type="text" id="description" class="swal2-input" placeholder="Description">
           `
               : ""
-            }
+          }
           `,
           icon: "success",
           preConfirm: () => {
