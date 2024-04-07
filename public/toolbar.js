@@ -159,7 +159,7 @@
                         }
                     },
                     buttons: {
-                        edit: "File",
+                        edit: "Edit",
                         editDisabled: "No layers to edit",
                         remove: "Delete",
                         removeDisabled: "No layers to delete"
@@ -463,12 +463,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#707070",
                     weight: 4,
-                    opacity: .5,
+                    opacity: .75,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .7,
                     clickable: !0
                 },
                 metric: !0,
@@ -483,9 +483,9 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#707070",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
                     fillOpacity: .2,
@@ -505,12 +505,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#707070",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .7,
                     clickable: !0
                 },
                 metric: !0,
@@ -552,12 +552,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#0000FF",
+                    color: "#7de9ff",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .7,
                     clickable: !0
                 },
                 metric: !0,
@@ -572,12 +572,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#0000FF",
+                    color: "#7de9ff",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .7,
                     clickable: !0
                 },
                 metric: !0,
@@ -594,12 +594,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#0000FF",
+                    color: "#7de9ff",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .7,
                     clickable: !0
                 },
                 metric: !0,
@@ -641,12 +641,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#00FF00",
+                    color: "#c8facc",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -661,12 +661,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#00FF00",
+                    color: "#c8facc",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -683,12 +683,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#00FF00",
+                    color: "#c8facc",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: 0.9,
                     clickable: !0
                 },
                 metric: !0,
@@ -730,12 +730,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#dbdbdb",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -750,12 +750,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#dbdbdb",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -772,12 +772,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#000000",
+                    color: "#dbdbdb",
                     weight: 4,
-                    opacity: .5,
+                    opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -1799,7 +1799,7 @@
                     text: 'Walkways 🚶'
                 }, {
                     enabled: this.options.building,
-                    handler: new L.Draw.Polygon(t, this.options.building),
+                    handler: new L.Draw.Polygon4(t, this.options.building),
                     title: L.drawLocal.draw.toolbar.buttons.building,
                     text: 'Buildings 🏠'
                 }, {
@@ -1814,7 +1814,7 @@
                     text: 'Parks 🌳'
                 }, {
                     enabled: this.options.empty,
-                    handler: new L.Draw.Polygon4(t, this.options.empty),
+                    handler: new L.Draw.Polygon(t, this.options.empty),
                     title: L.drawLocal.draw.toolbar.buttons.empty,
                     text: 'Empty Lot'
                 }, ]

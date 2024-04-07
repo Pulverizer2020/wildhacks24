@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,1000;1,9..40,1000&display=swap');
+
+
+.searchBar{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+
+};
+
+form {
+    font-family: "DM Sans"
+};
