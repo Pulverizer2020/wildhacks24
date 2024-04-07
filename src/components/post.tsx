@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../utils/authContext";
 import { PostType } from "./feed";
 import loadMapDataToIframe from "../utils/loadMapDataToIframe";
+import hearticon from "../assets/favorite.png"
 
 const Post = (props: {
   post: PostType;
@@ -19,7 +20,7 @@ const Post = (props: {
   return (
     <div
       key={props.index}
-      className="rounded overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
+      className="rounded-3xl overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
     >
       <div className="w-full flex justify-between p-3 outline-gray-500">
         <div className="flex">
@@ -42,14 +43,8 @@ const Post = (props: {
       <div className="px-3 pb-2 pt-2">
         <div className="flex items-center justify-between text-gray-900">
           <div className="flex items-center space-x-2">
-            <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
-              <svg
-                className="w-5 h-5 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
-              </svg>
+            <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
+            <img src={hearticon} style={{ width: '32px', height: '32px' }}/>
               <div
                 onClick={() =>
                   props.handleLikeClick(props.index, props.post.postId)
@@ -64,7 +59,7 @@ const Post = (props: {
               </div>
             </button>
           </div>
-          <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+          <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
             <svg
               width="22px"
               height="22px"
@@ -89,7 +84,7 @@ const Post = (props: {
             <span>{props.post.comments.length} Comments</span>
           </button>
 
-          <button className="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white">
+          <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -104,7 +99,7 @@ const Post = (props: {
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
-            <span> Edit</span>
+            <span> Remap</span>
           </button>
         </div>
         <div className="pt-2">

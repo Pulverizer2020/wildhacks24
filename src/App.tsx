@@ -56,6 +56,7 @@ function App() {
         console.log("Document successfully written!");
         Swal.fire({
           title: "Upload Successful",
+          confirmButtonText: "Submit",
           html: `
           Here is the sharable link for your map: 
           <a style="color: #60a5fa;" href=${
@@ -63,6 +64,20 @@ function App() {
           }/#${mapUUID}>
             ${import.meta.env.VITE_HOST}/#${mapUUID}
           </a>
+
+          ${
+            currentUser
+              ? `
+              <br />
+              <br />
+
+               Add a title and description for your post?
+
+               <input type="text" id="title" class="swal2-input" placeholder="Title">
+               <input type="text" id="description" class="swal2-input" placeholder="Description">
+          `
+              : null
+          }
           `,
           icon: "success",
         });
@@ -95,14 +110,17 @@ function App() {
 
   return (
     <>
-
       <Navbar />
-      <Landing/>
       <Routes>
         <Route
           path="/"
           element={
             <>
+<<<<<<< HEAD
+              <Landing />
+=======
+            <Landing/>
+>>>>>>> 43836186f4f92f2094d8b6d22b477f95a6a2407f
               <SearchBar iframeRef={iframeRef} />
               <iframe
                 ref={iframeRef}
