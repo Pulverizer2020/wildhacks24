@@ -34,21 +34,12 @@
 
     <body>
      <div id="map" style="height: 600px;">
-     <a id='export'>Export Features</a>
+     <a id='export'>Upload</a>
 
         <script>
 
             // MAKE MAP //
             var map = L.map('map').setView([51.505, -0.09], 13);
-
-            // LISTEN FOR MESSAGES //
-            window.addEventListener("message", function(event) {
-                console.log(event)
-                if (event.data.call === 'mapLocation') {
-                    map.setView(event.data.value, 13)
-                }
-                
-            }, false)
             
 
             // DRAW MAP //
@@ -75,9 +66,44 @@
                 var type = e.layerType,
                     layer = e.layer;
 
+                console.log("layer", layer)
+
                 // draw to map
                 drawnItems.addLayer(layer);
             });
+
+
+
+            // LISTEN FOR MESSAGES FROM PARENT (OUTSIDE IFRAME) //
+            window.addEventListener("message", function(event) {
+                console.log(event)
+
+                // CHANGE LOCATION // 
+                if (event.data.call === 'mapLocation') {
+                    map.setView(event.data.value, 13)
+                }
+
+                // LOAD SHAPES // 
+                if (event.data.call === "loadMapShapes") {
+                    var type = event.data.value.type
+                        features = event.data.value.features // geojson... kinda
+                    
+                    console.log("loaded shapes inside iframe", features)
+                    
+                    L.geoJSON(features, {
+                        style: function (feature) {
+                            return feature.properties;
+                        },
+                        onEachFeature: function (feature, layer) {
+                            console.log("INSIDE GEOJSON", feature, layer)
+                            drawnItems.addLayer(layer)
+                        }
+                    })
+                    
+                }
+                
+            }, false)
+
 
 
             // EXPORT SHAPES //
