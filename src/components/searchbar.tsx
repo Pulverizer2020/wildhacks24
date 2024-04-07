@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Import React and useState
-import Map from "./Map";
+import Map from "./map";
 
 const SearchBar: React.FC = () => {
   const [inputValue, setInputValue] = useState(""); // Initial state is an empty string
