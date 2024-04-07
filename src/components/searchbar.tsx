@@ -11,7 +11,8 @@ const SearchBar: React.FC<Props> = (props: Props) => {
     setInputValue(event.target.value); // Updates state with current input value
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
     const baseURL = "https://nominatim.openstreetmap.org/search";
     const params = `?q=${encodeURIComponent(inputValue)}&format=json&limit=1`;
     try {
@@ -31,7 +32,7 @@ const SearchBar: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="searchBar">
-      <form className="form">
+      <form className="form" onSubmit={handleSearch}>
         {/* Added onChange handler to input */}
         <input
           className="location"
