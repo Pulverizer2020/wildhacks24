@@ -35,7 +35,17 @@ function Feed() {
             posterUid: "User123",
             postedTime: new Date().toISOString(),
             likes: 0,
-            comments: [],
+            comments: [{
+                userName: "Positive Pal",
+                posterProfilePic: "https://avatars.githubusercontent.com/u/30844089?v=4",
+                comment: "This is great"
+            },
+            {
+                userName: "Negative Nathan",
+                posterProfilePic: "https://avatars.githubusercontent.com/u/30844089?v=4",
+                comment: "This is not great"
+            }
+            ],
         };
 
         await setDoc(postDocRef, postData)
@@ -44,13 +54,11 @@ function Feed() {
     };
 
     return (
-        <div className="pt-20 flex flex-col min-h-screen justify-center items-center">
-            <p>Hi this is the Feed page</p>
-            <img src="https://i.ibb.co/7SXf4ch/Screenshot-2024-04-07-011617.png" alt="Feed" className="w-10 h-10" />
+        <div className="pt-20 flex flex-col bg-black min-h-screen justify-center items-center">
             <button onClick={handleNewPost}>Create New Post</button>
             {posts.map((post, index) => (
-                <div key={index} className="rounded overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-white text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4">
-                    <div className="w-full flex justify-between p-3">
+                <div key={index} className="rounded overflow-hidden border w-full lg:w-4/12 md:w-6/12 bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4">
+                    <div className="w-full flex justify-between p-3 outline-gray-500">
                         <div className="flex">
                             <div className="rounded-full h-8 w-8 bg-gray-500 flex items-center justify-center overflow-hidden">
                                 <img src={post.posterProfilePic} alt="profilepic"></img>
@@ -62,29 +70,39 @@ function Feed() {
                         <span className="px-2 hover:bg-gray-300 cursor-pointer rounded"><i className="fas fa-ellipsis-h pt-2 text-lg"></i></span>
                     </div>
                     <img className="w-full bg-cover" src="https://3.bp.blogspot.com/-Chu20FDi9Ek/WoOD-ehQ29I/AAAAAAAAK7U/mc4CAiTYOY8VzOFzBKdR52aLRiyjqu0MwCLcBGAs/s1600/DSC04596%2B%25282%2529.JPG" ></img>
-                    <div className="px-3 pb-2">
-                        <div className="flex justify-between items-center">
-                            <button class="inline-flex items-center px-1 pt-2 ml-1 flex-column">
-                                <svg class="w-5 h-5 ml-2 text-gray-600 cursor-pointer fill-current hover:text-gray-900"
-                                    viewBox="0 0 95 78" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M29.58 0c1.53.064 2.88 1.47 2.879 3v11.31c19.841.769 34.384 8.902 41.247 20.464 7.212 12.15 5.505 27.83-6.384 40.273-.987 1.088-2.82 1.274-4.005.405-1.186-.868-1.559-2.67-.814-3.936 4.986-9.075 2.985-18.092-3.13-24.214-5.775-5.78-15.377-8.782-26.914-5.53V53.99c-.01 1.167-.769 2.294-1.848 2.744-1.08.45-2.416.195-3.253-.62L.85 30.119c-1.146-1.124-1.131-3.205.032-4.312L27.389.812c.703-.579 1.49-.703 2.19-.812zm-3.13 9.935L7.297 27.994l19.153 18.84v-7.342c-.002-1.244.856-2.442 2.034-2.844 14.307-4.882 27.323-1.394 35.145 6.437 3.985 3.989 6.581 9.143 7.355 14.715 2.14-6.959 1.157-13.902-2.441-19.964-5.89-9.92-19.251-17.684-39.089-17.684-1.573 0-3.004-1.429-3.004-3V9.936z"
-                                        fill-rule="nonzero" />
+                    <div className="px-3 pb-2 pt-2">
+                        <div class="flex items-center justify-between text-gray-900">
+                            <div class="flex items-center space-x-2">
+                                <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+                                    <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                    <span>{post.likes} Likes</span>
+                                </button>
+                            </div>
+                            <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+                                <svg width="22px" height="22px" viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22ZM8 13.25C7.58579 13.25 7.25 13.5858 7.25 14C7.25 14.4142 7.58579 14.75 8 14.75H13.5C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25H8ZM7.25 10.5C7.25 10.0858 7.58579 9.75 8 9.75H16C16.4142 9.75 16.75 10.0858 16.75 10.5C16.75 10.9142 16.4142 11.25 16 11.25H8C7.58579 11.25 7.25 10.9142 7.25 10.5Z"></path>
+                                    </g>
                                 </svg>
+                                <span>{post.comments} Comments</span>
                             </button>
-                            <button class="inline-flex items-center px-1 -ml-1 flex-column">
-                                <svg class="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-700" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
-                                    </path>
+
+                            <button class="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
+                                <span> Edit</span>
                             </button>
+
                         </div>
                         <div className="pt-2">
                             <i className="far fa-heart cursor-pointer"></i>
                             <span className="text-sm text-gray-500 font-medium">
-                                {post.likes} likes, created at {post.postedTime}</span>
+                                Created at {post.postedTime}</span>
                         </div>
                         <div className="pt-1">
                             <div className="mb-2 text-sm">
