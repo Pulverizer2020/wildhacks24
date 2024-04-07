@@ -1,5 +1,4 @@
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
-import LineMaker from "./LineMaker";
 
 function MapComponent({ locationInfo }) {
   const map = useMap();
@@ -34,7 +33,6 @@ const Map = ({ locationInfo }) => {
           maxZoom={18}
         />
         <MapComponent locationInfo={locationInfo} />
-        <LineMaker />
       </MapContainer>
     );
   }
