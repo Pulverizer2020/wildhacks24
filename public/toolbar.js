@@ -98,6 +98,7 @@
                         }
                     }, 
                     road: {
+                        text: 'road',
                         error: "<strong>Error:</strong> shape edges cannot cross!",
                         tooltip: {
                             start: "Click to start drawing line.",
@@ -158,9 +159,9 @@
                         }
                     },
                     buttons: {
-                        edit: "Edit layers",
+                        edit: "File",
                         editDisabled: "No layers to edit",
-                        remove: "Delete layers",
+                        remove: "Delete",
                         removeDisabled: "No layers to delete"
                     }
                 },
@@ -1667,7 +1668,7 @@
                     o = 0,
                     a = this._toolbarClass || "",
                     n = this.getModeHandlers(t);
-                for (this._toolbarContainer = L.DomUtil.create("div", "leaflet-draw-toolbar leaflet-bar"), this._map = t, e = 0; e < n.length; e++) n[e].enabled && this._initModeHandler(n[e].handler, this._toolbarContainer, o++, a, n[e].title);
+                for (this._toolbarContainer = L.DomUtil.create("div", "leaflet-draw-toolbar leaflet-bar"), this._map = t, e = 0; e < n.length; e++) n[e].enabled && this._initModeHandler(n[e].handler, this._toolbarContainer, o++, a, n[e].title, n[e].text);
                 if (o) return this._lastButtonIndex = --o, this._actionsContainer = L.DomUtil.create("ul", "leaflet-draw-actions"), i.appendChild(this._toolbarContainer), i.appendChild(this._actionsContainer), i
             },
             removeToolbar: function() {
@@ -1676,11 +1677,12 @@
                 for (var e = 0, i = this._actionButtons.length; e < i; e++) this._disposeButton(this._actionButtons[e].button, this._actionButtons[e].callback, this);
                 this._actionButtons = [], this._actionsContainer = null
             },
-            _initModeHandler: function(t, e, i, o, a) {
+            _initModeHandler: function(t, e, i, o, a, text) {
                 var n = t.type;
                 this._modes[n] = {}, this._modes[n].handler = t, this._modes[n].button = this._createButton({
                     type: n,
                     title: a,
+                    text: text,
                     className: o + "-" + n,
                     container: e,
                     callback: this._modes[n].handler.enable,
@@ -1692,7 +1694,7 @@
             },
             _createButton: function(t) {
                 var e = L.DomUtil.create("a", t.className || "", t.container),
-                    i = L.DomUtil.create("span", "sr-only", t.container);
+                    i = L.DomUtil.create("span", "", t.container);
                 e.href = "#", e.appendChild(i), t.title && (e.title = t.title, i.innerHTML = t.title), t.text && (e.innerHTML = t.text, i.innerHTML = t.text);
                 var o = this._detectIOS() ? "touchstart" : "click";
                 return L.DomEvent.on(e, "click", L.DomEvent.stopPropagation).on(e, "mousedown", L.DomEvent.stopPropagation).on(e, "dblclick", L.DomEvent.stopPropagation).on(e, "touchstart", L.DomEvent.stopPropagation).on(e, "click", L.DomEvent.preventDefault).on(e, o, t.callback, t.context), e
@@ -1777,35 +1779,44 @@
                 return [{
                     enabled: this.options.road,
                     handler: new L.Draw.Polyline(t, this.options.road),
-                    title: L.drawLocal.draw.toolbar.buttons.road
+                    title: L.drawLocal.draw.toolbar.buttons.road,
+                    text: 'Roads 🚗'
                 }, {
                     enabled: this.options.bike,
                     handler: new L.Draw.Polyline(t, this.options.bike),
-                    title: L.drawLocal.draw.toolbar.buttons.bike
+                    title: L.drawLocal.draw.toolbar.buttons.bike,
+                    text: 'Bike Lanes 🚲'
+                    
                 }, {
                     enabled: this.options.publicTransit,
                     handler: new L.Draw.Polyline(t, this.options.publicTransit),
-                    title: L.drawLocal.draw.toolbar.buttons.publicTransit
+                    title: L.drawLocal.draw.toolbar.buttons.publicTransit,
+                    text: 'Public Transit 🚋'
                 }, {
                     enabled: this.options.walkway,
                     handler: new L.Draw.Polyline(t, this.options.walkway),
-                    title: L.drawLocal.draw.toolbar.buttons.walkway
+                    title: L.drawLocal.draw.toolbar.buttons.walkway,
+                    text: 'Walkways 🚶'
                 }, {
                     enabled: this.options.building,
                     handler: new L.Draw.Polygon(t, this.options.building),
-                    title: L.drawLocal.draw.toolbar.buttons.building
+                    title: L.drawLocal.draw.toolbar.buttons.building,
+                    text: 'Buildings 🏠'
                 }, {
                     enabled: this.options.lake,
                     handler: new L.Draw.Polygon3(t, this.options.lake),
-                    title: L.drawLocal.draw.toolbar.buttons.lake
+                    title: L.drawLocal.draw.toolbar.buttons.lake,
+                    text: 'Water 🌊'
                 }, {
                     enabled: this.options.park,
                     handler: new L.Draw.Polygon2(t, this.options.park),
-                    title: L.drawLocal.draw.toolbar.buttons.park
+                    title: L.drawLocal.draw.toolbar.buttons.park,
+                    text: 'Parks 🌳'
                 }, {
                     enabled: this.options.empty,
                     handler: new L.Draw.Polygon4(t, this.options.empty),
-                    title: L.drawLocal.draw.toolbar.buttons.empty
+                    title: L.drawLocal.draw.toolbar.buttons.empty,
+                    text: 'Empty Lot'
                 }, ]
             },
             getActions: function(t) {
@@ -1874,12 +1885,12 @@
             getActions: function(t) {
                 var e = [{
                     title: L.drawLocal.edit.toolbar.actions.save.title,
-                    text: L.drawLocal.edit.toolbar.actions.save.text,
+                    text: "Save",
                     callback: this._save,
                     context: this
                 }, {
                     title: L.drawLocal.edit.toolbar.actions.cancel.title,
-                    text: L.drawLocal.edit.toolbar.actions.cancel.text,
+                    text: "Cancel",
                     callback: this.disable,
                     context: this
                 }];
