@@ -8,6 +8,7 @@ const Post = (props: {
   post: PostType;
   index: number;
   handleLikeClick: (index: number, postId: string) => void;
+  showComments: (comments: any[]) => void;
 }) => {
   const { currentUser } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
@@ -80,7 +81,7 @@ const Post = (props: {
                 ></path>
               </g>
             </svg>
-            <span>Comments</span>
+            <span>{props.post.comments.length} Comments</span>
           </button>
 
           <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
@@ -117,7 +118,7 @@ const Post = (props: {
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">
-          View all 14 comments
+          <button onClick={() => props.showComments(props.post.comments)}>View all {props.post.comments.length} comments</button>
         </div>
         {/*
                             <div className="mb-2">
