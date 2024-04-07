@@ -1,3 +1,4 @@
+import heartIcon from '../assets/favorite.png'
 import React, { useState, useEffect } from "react";
 import {
   getFirestore,
@@ -47,7 +48,6 @@ function Feed() {
 
       setPosts(posts);
     };
-
     fetchPosts();
   }, []);
 
