@@ -2,12 +2,13 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../utils/authContext";
 import { PostType } from "./feed";
 import loadMapDataToIframe from "../utils/loadMapDataToIframe";
-import hearticon from "../assets/favorite.png"
+import hearticon from "../assets/favorite.png";
 
 const Post = (props: {
   post: PostType;
   index: number;
-  handleLikeClick: (index: number, postId: string) => void;
+  handleLikeClick: (postIndex: number, postId: string) => void;
+  showComments: (postIndex: number, postId: string) => void;
 }) => {
   const { currentUser } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
@@ -43,7 +44,7 @@ const Post = (props: {
         <div className="flex items-center justify-between text-gray-900">
           <div className="flex items-center space-x-2">
             <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
-            <img src={hearticon} style={{ width: '32px', height: '32px' }}/>
+              <img src={hearticon} style={{ width: "32px", height: "32px" }} />
               <div
                 onClick={() =>
                   props.handleLikeClick(props.index, props.post.postId)
@@ -80,7 +81,9 @@ const Post = (props: {
                 ></path>
               </g>
             </svg>
-            <span>Comments</span>
+            <span onClick={() => props.showComments(props.index)}>
+              {props.post.comments.length} Comments
+            </span>
           </button>
 
           <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
@@ -98,7 +101,12 @@ const Post = (props: {
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
-            <span> Edit</span>
+            <a
+              href={`${import.meta.env.VITE_HOST}/map?uuid=${props.post.mapId}`}
+            >
+              {" "}
+              Remap
+            </a>
           </button>
         </div>
         <div className="pt-2">
@@ -112,14 +120,12 @@ const Post = (props: {
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">
-          View all 14 comments
+          <button
+            onClick={() => props.showComments(props.index, props.post.postId)}
+          >
+            View all {props.post.comments.length} comments
+          </button>
         </div>
-        {/*
-                            <div className="mb-2">
-                                <div className="mb-2 text-sm">
-                                    <span className="font-medium mr-2">razzle_dazzle</span> Dude! How cool! I went to New Zealand last summer and had a blast taking the tour! So much to see! Make sure you bring a good camera when you go!
-                            </div>
-                    </div>*/}
       </div>
     </div>
   );
