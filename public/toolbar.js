@@ -468,7 +468,7 @@
                     opacity: .75,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .7,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -488,7 +488,7 @@
                     opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .2,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -510,7 +510,7 @@
                     opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .7,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -552,12 +552,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#7de9ff",
+                    color: "#9eb3ca",
                     weight: 4,
                     opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .7,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -572,12 +572,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#7de9ff",
+                    color: "#9eb3ca",
                     weight: 4,
                     opacity: 1,
                     fill: false,
                     fillColor: null,
-                    fillOpacity: .7,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -594,12 +594,12 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#7de9ff",
+                    color: "#9eb3ca",
                     weight: 4,
                     opacity: 1,
                     fill: true,
                     fillColor: null,
-                    fillOpacity: .7,
+                    fillOpacity: .9,
                     clickable: !0
                 },
                 metric: !0,
@@ -641,7 +641,7 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#c8facc",
+                    color: "#b9c5a0",
                     weight: 4,
                     opacity: 1,
                     fill: false,
@@ -661,7 +661,7 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#c8facc",
+                    color: "#b9c5a0",
                     weight: 4,
                     opacity: 1,
                     fill: false,
@@ -683,7 +683,7 @@
                 showLength: !1,
                 shapeOptions: {
                     stroke: !0,
-                    color: "#c8facc",
+                    color: "#b9c5a0",
                     weight: 4,
                     opacity: 1,
                     fill: true,
