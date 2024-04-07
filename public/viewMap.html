@@ -1,0 +1,98 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <link rel="stylesheet" href="toolbar.css"/>
+    <script src="toolbar.js"></script>
+    
+
+    <style>
+
+            body {
+                margin: 0;
+            }
+      
+            
+        </style>
+
+</head>
+
+    <body>
+     <div id="map" style="height: 100vh;">
+     
+
+        <script>
+
+            // MAKE MAP //
+            var map = L.map('map').setView([51.505, -0.09], 13);
+            
+
+            // DRAW MAP //
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            
+
+            // DRAWING SHAPES //
+            var drawnItems = new L.FeatureGroup();
+            map.addLayer(drawnItems);
+                 
+
+
+
+            map.on('draw:created', function(e) {
+                var type = e.layerType,
+                    layer = e.layer;
+
+                console.log("draw:created e", e)
+                console.log("layer", layer)
+
+                // draw to map
+                drawnItems.addLayer(layer);
+            });
+
+
+
+            // LISTEN FOR MESSAGES FROM PARENT (OUTSIDE IFRAME) //
+            window.addEventListener("message", function(event) {
+                console.log(event)
+
+                // LOAD MAP STATE // 
+                if (event.data.call === "loadMapState") {
+                    var center = event.data.value.center
+                        shapesFeatures = event.data.value.shapes.features // geojson... kinda
+                        zoom = event.data.value.zoom
+                    
+                    
+                    
+                    console.log("loaded shapes inside iframe", shapesFeatures)
+                    
+                    L.geoJSON(shapesFeatures, {
+                        style: function (feature) {
+                            return feature.properties;
+                        },
+                        onEachFeature: function (feature, layer) {
+                            console.log("INSIDE GEOJSON", feature, layer)
+                            drawnItems.addLayer(layer)
+                        }
+                    })
+
+                    map.setView(center, zoom)
+                    
+                }
+                
+            }, false)
+
+
+
+        </script>
+    </body>
+     </div>
+
+</html>
