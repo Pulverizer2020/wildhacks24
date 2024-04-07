@@ -8,14 +8,15 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false, // SHOULD BE TRUE IF GOOD TYPESCRIPT
+    "noEmitOnError": false, // SHOULD BE TRUE IF GOOD TYPESCRIPT
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": false, // true,
+    "strict": true, // true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
