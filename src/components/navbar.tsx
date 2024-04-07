@@ -10,7 +10,7 @@ function Navbar() {
     logout();
   };
 
-  const [toggleBurger, setToggleBurger] = useState(true); // you could default to false
+  const [toggleBurger, setToggleBurger] = useState(false);
 
   return (
     <>
