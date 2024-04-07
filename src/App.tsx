@@ -1,4 +1,6 @@
+
 import { useRef } from "react";
+
 import SearchBar from "./components/searchbar";
 
 function App() {
