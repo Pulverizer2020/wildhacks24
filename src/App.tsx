@@ -24,7 +24,7 @@ function App() {
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
 
   window.onmessage = function (e) {
-    if (e.data.call === "exportMapShapes") {
+    if (e.data.call === "exportMapState") {
       console.log("e.data.value", e.data.value);
       handleUpload(e.data.value);
     }
@@ -42,19 +42,21 @@ function App() {
       getDoc(docRef)
         .then((docSnapshot) => {
           if (docSnapshot.exists()) {
-            const values = docSnapshot.data();
+            const loadedMapState = docSnapshot.data();
 
-            const valuesFormatted =
-              firebaseFeaturesObjectToNormalFeaturesObject(values);
+            loadedMapState.shapes =
+              firebaseFeaturesObjectToNormalFeaturesObject(
+                loadedMapState.shapes
+              );
 
-            console.log("valuesFormatted", valuesFormatted);
+            console.log("formattedShapes", loadedMapState);
 
             setUUID(browserUuid);
 
             // send this data to the map
             iframeRef.current.contentWindow?.postMessage({
-              call: "loadMapShapes",
-              value: valuesFormatted,
+              call: "loadMapState",
+              value: loadedMapState,
             });
           } else {
             // Document doesn't exist
@@ -69,7 +71,7 @@ function App() {
     }
   }, []);
 
-  const handleUpload = (newFeatures: object) => {
+  const handleUpload = (mapState: object) => {
     // Generate a small UUID and update state
 
     const smallUUID = nanoid(8);
@@ -77,12 +79,13 @@ function App() {
 
     const docRef = doc(db, "maps", smallUUID); // Replace "collectionName" with your actual collection name
 
-    console.log("feature before", newFeatures);
-    const formattedFeatures =
-      normalFeaturesObjectToFirebaseFeaturesObject(newFeatures);
-    console.log("formattedFeatures", formattedFeatures);
+    console.log("shapes before", mapState);
+    mapState.shapes = normalFeaturesObjectToFirebaseFeaturesObject(
+      mapState.shapes
+    );
+    console.log("formattedShapes", mapState);
 
-    setDoc(docRef, formattedFeatures, { merge: true })
+    setDoc(docRef, mapState, { merge: true })
       .then(() => console.log("Document successfully written!"))
       .catch((error) => console.error("Error writing document: ", error));
   };

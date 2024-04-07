@@ -96,14 +96,17 @@
                     map.setView(event.data.value, 13)
                 }
 
-                // LOAD SHAPES // 
-                if (event.data.call === "loadMapShapes") {
-                    var type = event.data.value.type
-                        features = event.data.value.features // geojson... kinda
+                // LOAD MAP STATE // 
+                if (event.data.call === "loadMapState") {
+                    var center = event.data.value.center
+                        shapesFeatures = event.data.value.shapes.features // geojson... kinda
+                        zoom = event.data.value.zoom
                     
-                    console.log("loaded shapes inside iframe", features)
                     
-                    L.geoJSON(features, {
+                    
+                    console.log("loaded shapes inside iframe", shapesFeatures)
+                    
+                    L.geoJSON(shapesFeatures, {
                         style: function (feature) {
                             return feature.properties;
                         },
@@ -112,6 +115,8 @@
                             drawnItems.addLayer(layer)
                         }
                     })
+
+                    map.setView(center, zoom)
                     
                 }
                 
@@ -119,7 +124,7 @@
 
 
 
-            // EXPORT SHAPES //
+            // EXPORT MAP STATE //
             function layerToJSON(layer){
                 var j = layer.toGeoJSON();
                 var feature = "";
@@ -138,7 +143,11 @@
 
             document.getElementById('export').onclick = function(e) {
                 const features = drawnItemsToJSON(drawnItems)
-                window.top.postMessage({call: "exportMapShapes", value: features}, "*")
+                const centerLatLng = map.getCenter();
+                const center = [centerLatLng["lat"], centerLatLng["lng"]]
+                const zoom = map.getZoom();
+                
+                window.top.postMessage({call: "exportMapState", value: {shapes: features, center: center, zoom: zoom}}, "*")
             }
 
         </script>
