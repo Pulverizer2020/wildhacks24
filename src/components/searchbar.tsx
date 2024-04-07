@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Import React and useState
-import "./searchbar.css"
+import "./searchbar.css";
 
 type Props = {
   iframeRef: React.MutableRefObject<HTMLIFrameElement>;
@@ -33,24 +33,23 @@ const SearchBar: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="flex flex-row justify-center items-center h-16">
-
-        <div className="flex flex-row items-center">
-      <form className="form" onSubmit={handleSearch}>
-        {/* Added onChange handler to input */}
-        <input
-          className="w-[30vw] h-8 mr-3 rounded-md focus:outline-none hover:scale-105 duration-300"
-          type="text"
-          required
-          autoFocus
-          placeholder=" Location"
-          value={inputValue}
-          onChange={handleInputChange} // Handle input changes
-        />
-      </form>
-      {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
-      <button type="submit" onClick={handleSearch}>
-        Find Map
-      </button>
+      <div className="flex flex-row items-center">
+        <form className="form" onSubmit={handleSearch}>
+          {/* Added onChange handler to input */}
+          <input
+            className="w-[30vw] h-8 mr-3 rounded-md focus:outline-none hover:scale-105 duration-300"
+            type="text"
+            required
+            autoFocus
+            placeholder=" Location"
+            value={inputValue}
+            onChange={handleInputChange} // Handle input changes
+          />
+        </form>
+        {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
+        <button type="submit" onClick={handleSearch}>
+          Find Map
+        </button>
       </div>
     </div>
   );
