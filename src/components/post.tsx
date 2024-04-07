@@ -81,7 +81,9 @@ const Post = (props: {
                 ></path>
               </g>
             </svg>
-            <span onClick={() => props.showComments(props.index)}>
+            <span
+              onClick={() => props.showComments(props.index, props.post.postId)}
+            >
               {props.post.comments.length} Comments
             </span>
           </button>
@@ -111,12 +113,14 @@ const Post = (props: {
         </div>
         <div className="pt-2">
           <i className="far fa-heart cursor-pointer"></i>
-          <span className="text-sm text-gray-500 font-medium">Created at</span>
+          <span className="text-sm text-gray-500 font-medium">
+            Created on {props.post.createdAt.toDate().toDateString()}
+          </span>
         </div>
         <div className="pt-1">
           <div className="mb-2 text-sm">
             <span className="font-medium mr-2">{props.post.username}</span>
-            {props.post.description}
+            <span className="font-normal">{props.post.description}</span>
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">
