@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { initializeApp } from 'firebase/app';
 import { nanoid } from 'nanoid';
+import { useSearchParams } from "react-router-dom";
 
 const config = {
     apiKey: "AIzaSyDrkCcTA-x2YRWDg9irkpp41YfJ7Nllo1U",
@@ -19,15 +20,16 @@ const app = initializeApp(config);
 
 const FirestoreLink: React.FC = () => {
     const [jsonString, setJSONString] = useState('');
-    const [uuid, setUUID] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
     const db = getFirestore();
+    const uuid = searchParams.get("uuid");
 
     useEffect(() => {
-        const uuid = window.location.hash.substring(1);
+
 
         if (uuid) {
             const docRef = doc(db, "mapValues", "OIDrsNY6z3KcQOYDJeMX");
-
+            console.log("got the uuid " + uuid);
             getDoc(docRef).then((docSnapshot) => {
                 if (docSnapshot.exists()) {
                     const values = docSnapshot.data();
@@ -58,7 +60,7 @@ const FirestoreLink: React.FC = () => {
 
         // Generate a small UUID and update state
         const smallUUID = nanoid(8);
-        setUUID(smallUUID);
+        setSearchParams({ uuid: smallUUID });
 
         // the document is named OIDrsNY6z3KcQOYDJeMX
         const docRef = doc(db, "mapValues", "OIDrsNY6z3KcQOYDJeMX"); // Replace "collectionName" with your actual collection name
@@ -84,7 +86,7 @@ const FirestoreLink: React.FC = () => {
                 className="text-black bg-white p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
                 value={jsonString} onChange={(e) => setJSONString(e.target.value)} />
             <button onClick={handleUpload}>Upload</button>
-            {uuid && <p>Your URL: http://localhost:5173/#{uuid}</p>}
+            {uuid && <p>Your URL: http://localhost:5173/map?uuid={uuid}</p>}
         </div>
     );
 };
