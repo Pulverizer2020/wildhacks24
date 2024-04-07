@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Import React and useState
-import Map from "./Map";
+import Map from "./map";
 
 const SearchBar: React.FC = () => {
   const [inputValue, setInputValue] = useState(""); // Initial state is an empty string
@@ -9,7 +9,8 @@ const SearchBar: React.FC = () => {
     setInputValue(event.target.value); // Updates state with current input value
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
     const baseURL = "https://nominatim.openstreetmap.org/search";
     const params = `?q=${encodeURIComponent(inputValue)}&format=json&limit=1`;
     try {
@@ -29,7 +30,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="searchBar">
-      <form className="form">
+      <form className="form" onSubmit={handleSearch}>
         {/* Added onChange handler to input */}
         <input
           className="location"
@@ -40,11 +41,12 @@ const SearchBar: React.FC = () => {
           value={inputValue}
           onChange={handleInputChange} // Handle input changes
         />
+        <br />
+        {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
+        <button type="submit">
+          Find Map
+        </button>
       </form>
-      {/* Removed onClick from button as it doesn't serve a purpose in the current context */}
-      <button type="submit" onClick={handleSearch}>
-        Find Map
-      </button>
 
       <Map locationInfo={locationInfo} />
     </div>
