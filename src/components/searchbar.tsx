@@ -35,10 +35,10 @@ const SearchBar: React.FC<Props> = (props: Props) => {
     <div className="flex flex-row justify-center items-center mb-5 h-24">
 
         <div className="flex flex-row items-center">
-      <form className="form" onSubmit={handleSearch}>
+      <form className="mr-8" onSubmit={handleSearch}>
         {/* Added onChange handler to input */}
         <input
-          className="w-[50vw] h-12 mr-6 rounded-md focus:outline-none hover:scale-105 duration-300"
+          className="w-[50vw] h-12 mr-8 pl-5 rounded-md focus:outline-none hover:scale-105 duration-300"
           type="text"
           required
           autoFocus
