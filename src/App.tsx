@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./components/searchbar";
+import Landing from "./components/landing";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
@@ -107,6 +108,7 @@ function App() {
 
   return (
     <>
+    <Landing/>
       <SearchBar iframeRef={iframeRef} />
       {uuid && (
         <p>
