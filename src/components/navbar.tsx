@@ -96,7 +96,7 @@ function Navbar() {
           </ul>
         </div>
       </nav>
-      <div className="mb-14"></div>
+      <div className="mb-5"></div>
     </>
   );
 }

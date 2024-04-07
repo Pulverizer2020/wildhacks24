@@ -116,7 +116,11 @@ function App() {
           path="/"
           element={
             <>
+<<<<<<< HEAD
               <Landing />
+=======
+            <Landing/>
+>>>>>>> 43836186f4f92f2094d8b6d22b477f95a6a2407f
               <SearchBar iframeRef={iframeRef} />
               <iframe
                 ref={iframeRef}
