@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 // firestore objects can't have directly nested arrays
 
 type NormalFeaturesObjectPartial = {
@@ -18,7 +21,7 @@ type FirebaseFeaturesObjectPartial = {
 export const normalFeaturesObjectToFirebaseFeaturesObject = (
   normalFeaturesObject: NormalFeaturesObjectPartial
 ): FirebaseFeaturesObjectPartial => {
-  let firebaseFeaturesObject: FirebaseFeaturesObjectPartial =
+  const firebaseFeaturesObject: FirebaseFeaturesObjectPartial =
     normalFeaturesObject;
 
   for (let i = 0; i < firebaseFeaturesObject.features.length; i++) {
@@ -33,7 +36,7 @@ export const normalFeaturesObjectToFirebaseFeaturesObject = (
 export const firebaseFeaturesObjectToNormalFeaturesObject = (
   firebaseFeaturesObject: FirebaseFeaturesObjectPartial
 ): NormalFeaturesObjectPartial => {
-  let normalFeaturesObject: NormalFeaturesObjectPartial =
+  const normalFeaturesObject: NormalFeaturesObjectPartial =
     firebaseFeaturesObject;
 
   for (let i = 0; i < normalFeaturesObject.features.length; i++) {

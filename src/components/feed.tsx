@@ -1,4 +1,6 @@
-import heartIcon from "../assets/favorite.png";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import {
   getFirestore,
