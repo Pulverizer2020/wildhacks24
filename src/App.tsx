@@ -59,14 +59,12 @@ function App() {
           confirmButtonText: "Submit",
           html: `
           Here is the sharable link for your map: 
-          <a style="color: #60a5fa;" href=${
-            import.meta.env.VITE_HOST
-          }/#${mapUUID}>
+          <a style="color: #60a5fa;" href=${import.meta.env.VITE_HOST
+            }/#${mapUUID}>
             ${import.meta.env.VITE_HOST}/#${mapUUID}
           </a>
 
-          ${
-            currentUser
+          ${currentUser
               ? `
               <br />
               <br />
@@ -77,7 +75,7 @@ function App() {
                <input type="text" id="description" class="swal2-input" placeholder="Description">
           `
               : null
-          }
+            }
           `,
           icon: "success",
         });
@@ -116,11 +114,7 @@ function App() {
           path="/"
           element={
             <>
-<<<<<<< HEAD
               <Landing />
-=======
-            <Landing/>
->>>>>>> 43836186f4f92f2094d8b6d22b477f95a6a2407f
               <SearchBar iframeRef={iframeRef} />
               <iframe
                 ref={iframeRef}
