@@ -116,11 +116,6 @@ function App() {
           element={
             <>
               <SearchBar iframeRef={iframeRef} />
-              {uuid && (
-                <p>
-                  Your URL: {import.meta.env.VITE_HOST}/map?uuid={uuid}
-                </p>
-              )}
               <iframe
                 ref={iframeRef}
                 style={{ width: "100%", height: "500px" }}
@@ -134,11 +129,6 @@ function App() {
           element={
             <>
               <SearchBar iframeRef={iframeRef} />
-              {uuid && (
-                <p>
-                  Your URL: {import.meta.env.VITE_HOST}/map?uuid={uuid}
-                </p>
-              )}
               <iframe
                 ref={iframeRef}
                 style={{ width: "100%", height: "500px" }}
