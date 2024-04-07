@@ -112,12 +112,12 @@ function App() {
     <>
 
       <Navbar />
-      <Landing/>
       <Routes>
         <Route
           path="/"
           element={
             <>
+            <Landing/>
               <SearchBar iframeRef={iframeRef} />
               <iframe
                 ref={iframeRef}

@@ -14,7 +14,7 @@ function Navbar() {
       <nav className="">
         <div className="mt-2 max-w-screen-xl flex flex-column items-center justify-between mx-auto p-2">
           <a
-            href=""
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">
@@ -97,7 +97,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      <div className="mb-14"></div>
+      <div className="mb-5"></div>
     </>
   );
 }
