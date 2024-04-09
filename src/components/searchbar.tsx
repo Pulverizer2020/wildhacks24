@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import React, { useState } from "react"; // Import React and useState
-import "./searchbar.css";
 
 type Props = {
   iframeRef: React.MutableRefObject<HTMLIFrameElement>;

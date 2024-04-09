@@ -132,7 +132,7 @@ function Navbar() {
         </div>
       )}
 
-      <div className="mb-5"></div>
+      <div className="mb-14"></div>
     </>
   );
 }

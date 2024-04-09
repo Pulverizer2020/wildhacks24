@@ -14,7 +14,7 @@ import {
 import { useAuth } from "../utils/authContext";
 import Swal from "sweetalert2";
 
-import Post from "./post";
+import Post from "../components/Post";
 
 export type PostType = {
   postId: string;
@@ -28,7 +28,7 @@ export type PostType = {
   description: string;
 };
 
-function Feed() {
+function FeedPage() {
   const [posts, setPosts] = useState<PostType[]>([]);
   const { currentUser } = useAuth();
 
@@ -233,4 +233,4 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default FeedPage;

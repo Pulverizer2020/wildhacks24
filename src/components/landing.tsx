@@ -1,7 +1,7 @@
 const Landing = () => {
   return (
     <>
-      <div className="flex flex-column items-center justify-center w-screen mt-[120px]">
+      <div className="flex flex-column items-center justify-center w-screen">
         <h1 className="text-7xl text-center max-w-6xl">
           You know your{" "}
           <span style={{ color: "rgb(127, 240, 168)" }}>community</span> best.

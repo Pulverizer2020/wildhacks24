@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { useEffect, useRef } from "react";
 import { useAuth } from "../utils/authContext";
-import { PostType } from "./feed";
+import { PostType } from "../pages/FeedPage";
 import loadMapDataToIframe from "../utils/loadMapDataToIframe";
 import { PiMagicWandFill } from "react-icons/pi";
+import fetchAndFormatMapData from "../utils/fetchAndFormatMapData";
 
 const Post = (props: {
   post: PostType;
@@ -14,7 +18,12 @@ const Post = (props: {
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
 
   useEffect(() => {
-    loadMapDataToIframe(props.post.mapId, iframeRef);
+    const getMapData = async () => {
+      const mapData = await fetchAndFormatMapData(props.post.mapId);
+      loadMapDataToIframe(mapData, iframeRef);
+    };
+
+    getMapData();
   }, []);
 
   return (
