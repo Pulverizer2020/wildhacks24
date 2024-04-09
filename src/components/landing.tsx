@@ -12,7 +12,7 @@ const Landing = () => {
       <div className="flex flex-row items-center justify-center mt-10">
         <h2 className="w-[60vw] text-center">
           Punch in an address and start redesigning any block.
-          <br /> When you're done, create a sharable link!
+          <br /> When you're done, create a shareable link!
         </h2>
       </div>
     </>
