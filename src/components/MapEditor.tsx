@@ -30,6 +30,8 @@ function MapEditor() {
         return;
       }
 
+      console.log("mapData, e.data.value", mapData, e.data.value);
+
       if (mapData && e.data.value.shapes.features === mapData.shapes.features) {
         Swal.fire({
           title: "You can't create a duplicate map!",
