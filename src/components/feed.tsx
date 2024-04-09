@@ -36,16 +36,16 @@ function Feed() {
     const fetchPosts = async () => {
       const postsCollection = collection(db, "posts");
       const postDocs = await getDocs(postsCollection);
-      const posts = postDocs.docs.map((doc) => ({
+      let posts = postDocs.docs.map((doc) => ({
         ...doc.data(),
         postId: doc.id,
       }));
       console.log("posts", posts);
 
       // Sort posts from most recent to oldest
-      posts.sort(
+      posts = posts.sort(
         (a, b) =>
-          new Date(b.postedTime).getTime() - new Date(a.postedTime).getTime()
+          b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime()
       );
 
       setPosts(posts);
@@ -179,6 +179,7 @@ function Feed() {
   const db = getFirestore();
 
   const handleLikeClick = (postIndex: number, postId: string) => {
+    console.log("liking!", postIndex, postId);
     if (!currentUser) {
       Swal.fire({
         icon: "info",

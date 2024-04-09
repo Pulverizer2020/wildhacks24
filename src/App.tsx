@@ -25,6 +25,17 @@ function App() {
   window.onmessage = function (e) {
     if (e.data.call === "exportMapState") {
       console.log("e.data.value", e.data.value);
+
+      // if no shapes are included, then don't upload
+      if (e.data.value.shapes.features.length === 0) {
+        Swal.fire({
+          title: "You can't create a map without any features!",
+          text: "Try addings some by using the buttons on the left!",
+          icon: "info",
+        });
+        return;
+      }
+
       handleUpload(e.data.value);
     }
   };
@@ -69,7 +80,7 @@ function App() {
 
     const mapUUID = nanoid(8);
     const mapDocRef = doc(db, "maps", mapUUID);
-    setDoc(mapDocRef, mapState, { merge: true })
+    setDoc(mapDocRef, { ...mapState, createdAt: new Date() }, { merge: true })
       .then(() => {
         console.log("Document successfully written!");
         Swal.fire({
