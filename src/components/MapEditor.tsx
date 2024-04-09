@@ -30,6 +30,15 @@ function MapEditor() {
         return;
       }
 
+      if (mapData && e.data.value.shapes.features === mapData.shapes.features) {
+        Swal.fire({
+          title: "You can't create a duplicate map!",
+          text: "Try making some changes to the map by using the buttons on the left!",
+          icon: "info",
+        });
+        return;
+      }
+
       handleUpload(e.data.value);
     }
   };
@@ -93,7 +102,7 @@ function MapEditor() {
           Here is the sharable link for your map: 
           <a style="color: #60a5fa;" href=${
             import.meta.env.VITE_HOST
-          }/#${mapUUID}>
+          }/map?uuid=${mapUUID}>
             ${import.meta.env.VITE_HOST}/map?uuid=${mapUUID}
           </a>
 
