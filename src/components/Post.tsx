@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useAuth } from "../utils/authContext";
-import { PostType } from "../pages/FeedPage";
+import { MapType } from "../pages/FeedPage";
 import loadMapDataToIframe from "../utils/loadMapDataToIframe";
 import { PiMagicWandFill } from "react-icons/pi";
-import fetchAndFormatMapData from "../utils/fetchAndFormatMapData";
 
 const Post = (props: {
-  post: PostType;
+  map: MapType;
   index: number;
   handleLikeClick: (postIndex: number, postId: string) => void;
   showComments: (postIndex: number, postId: string) => void;
@@ -17,27 +16,21 @@ const Post = (props: {
   const { currentUser } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement>(document.createElement("iframe"));
 
-  useEffect(() => {
-    const getMapData = async () => {
-      const mapData = await fetchAndFormatMapData(props.post.mapId);
-      loadMapDataToIframe(mapData, iframeRef);
-    };
+  const handleIframeLoad = () => {
+    console.log("props.map.mapState", props.map.mapState);
 
-    getMapData();
-  }, []);
+    loadMapDataToIframe(props.map.mapState, iframeRef);
+  };
 
   return (
-    <div
-      key={props.index}
-      className="rounded-3xl overflow-hidden border w-full sm:w-[500px]  bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4"
-    >
+    <div className="rounded-3xl overflow-hidden border w-full sm:w-[500px]  bg-gray-50 text-gray-900 mx-3 md:mx-0 lg:mx-0 mb-4">
       <div className="w-full flex justify-between p-3 outline-gray-500">
         <div className="flex">
           <div className="rounded-full h-8 w-8 bg-gray-500 flex items-center justify-center overflow-hidden">
-            <img src={props.post.profilePicUrl} alt="profilepic"></img>
+            <img src={props.map.profilePicUrl} alt="profilepic"></img>
           </div>
           <span className="my-auto ml-2 font-bold text-sm">
-            {props.post.username}
+            {props.map.username}
           </span>
         </div>
         <span className="px-2 hover:bg-gray-300 cursor-pointer rounded">
@@ -46,11 +39,12 @@ const Post = (props: {
       </div>
       <div>
         <span className="flex justify-between pb-2 pl-3 font-bold text-lg">
-          {props.post.title}
+          {props.map.title}
         </span>
       </div>
       <iframe
         ref={iframeRef}
+        onLoad={() => handleIframeLoad()}
         style={{ width: "100%", height: "500px" }}
         src="viewMap.html"
       />
@@ -60,7 +54,7 @@ const Post = (props: {
             <button className="flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
               <svg
                 fill={
-                  props.post.likes.includes(currentUser?.uid ?? "")
+                  props.map.likes.includes(currentUser?.uid ?? "")
                     ? "red"
                     : "grey"
                 }
@@ -75,10 +69,10 @@ const Post = (props: {
 
               <div
                 onClick={() =>
-                  props.handleLikeClick(props.index, props.post.postId)
+                  props.handleLikeClick(props.index, props.map.postId)
                 }
               >
-                {props.post.likes.length} Likes{" "}
+                {props.map.likes.length} Likes{" "}
               </div>
             </button>
           </div>
@@ -105,16 +99,16 @@ const Post = (props: {
               </g>
             </svg>
             <span
-              onClick={() => props.showComments(props.index, props.post.postId)}
+              onClick={() => props.showComments(props.index, props.map.postId)}
             >
-              {props.post.comments.length} Comments
+              {props.map.comments.length} Comments
             </span>
           </button>
 
           <button className="bg-[#FFD700] h-12 rounded-3xl flex justify-center items-center gap-2 px-2 hover:scale-105 duration-150">
             <PiMagicWandFill />
             <a
-              href={`${import.meta.env.VITE_HOST}/map?uuid=${props.post.mapId}`}
+              href={`${import.meta.env.VITE_HOST}/map?uuid=${props.map.mapId}`}
             >
               {" "}
               Remap!
@@ -124,20 +118,20 @@ const Post = (props: {
         <div className="pt-2">
           <i className="far fa-heart cursor-pointer"></i>
           <span className="text-sm text-gray-500 font-medium">
-            Created on {props.post.createdAt.toDate().toDateString()}
+            Created on {props.map.createdAt.toDate().toDateString()}
           </span>
         </div>
         <div className="pt-1">
           <div className="mb-2 text-sm">
-            <span className="font-medium mr-2">{props.post.username}</span>
-            <span className="font-normal">{props.post.description}</span>
+            <span className="font-medium mr-2">{props.map.username}</span>
+            <span className="font-normal">{props.map.description}</span>
           </div>
         </div>
         <div className="text-sm mb-2 text-gray-500 cursor-pointer font-medium">
           <button
-            onClick={() => props.showComments(props.index, props.post.postId)}
+            onClick={() => props.showComments(props.index, props.map.postId)}
           >
-            View all {props.post.comments.length} comments
+            View all {props.map.comments.length} comments
           </button>
         </div>
       </div>

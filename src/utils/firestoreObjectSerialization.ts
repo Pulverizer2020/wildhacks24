@@ -39,12 +39,13 @@ export const firebaseFeaturesObjectToNormalFeaturesObject = (
   const normalFeaturesObject: NormalFeaturesObjectPartial =
     firebaseFeaturesObject;
 
+  // group back into LatLng pairs for Polygon and LineString
   for (let i = 0; i < normalFeaturesObject.features.length; i++) {
     normalFeaturesObject.features[i].geometry.coordinates = groupIntoPairs(
       firebaseFeaturesObject.features[i].geometry.coordinates
     );
 
-    // add another layer of nested array
+    // add another layer of nested array if Polygon
     if (normalFeaturesObject.features[i].geometry.type === "Polygon") {
       normalFeaturesObject.features[i].geometry.coordinates = [
         normalFeaturesObject.features[i].geometry.coordinates,

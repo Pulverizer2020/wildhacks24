@@ -10,8 +10,8 @@ const fetchAndFormatMapData = async (mapId: string) => {
     if (docSnapshot.exists()) {
       const mapData = docSnapshot.data();
 
-      mapData.shapes = firebaseFeaturesObjectToNormalFeaturesObject(
-        mapData.shapes
+      mapData.mapState.shapes = firebaseFeaturesObjectToNormalFeaturesObject(
+        mapData.mapState.shapes
       );
 
       return mapData;

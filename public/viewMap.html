@@ -61,6 +61,7 @@
             // LISTEN FOR MESSAGES FROM PARENT (OUTSIDE IFRAME) //
             window.addEventListener("message", function(event) {
                 console.log(event)
+                console.log("event.data.value",event.data.value)
 
                 // LOAD MAP STATE // 
                 if (event.data.call === "loadMapState") {

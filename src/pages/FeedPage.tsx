@@ -15,48 +15,58 @@ import { useAuth } from "../utils/authContext";
 import Swal from "sweetalert2";
 
 import Post from "../components/Post";
+import { firebaseFeaturesObjectToNormalFeaturesObject } from "../utils/firestoreObjectSerialization";
 
-export type PostType = {
-  postId: string;
+export type MapType = {
   mapId: string;
+  mapState: object; // contains all data to draw user-created map
   username: string;
-  comments: { username: string; profilePicUrl: string; comment: string }[];
-  likes: string[]; // will be filled with userIds
-  createdAt: Timestamp;
   profilePicUrl: string;
   title: string;
   description: string;
+  comments: { username: string; profilePicUrl: string; comment: string }[];
+  likes: string[]; // will be filled with userIds
+  createdAt: Timestamp;
 };
 
 function FeedPage() {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [maps, setMaps] = useState<MapType[]>([]);
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const postsCollection = collection(db, "posts");
-      const postDocs = await getDocs(postsCollection);
-      let posts = postDocs.docs.map((doc) => ({
+    const fetchMaps = async () => {
+      const mapsCollection = collection(db, "maps");
+      const mapDocs = await getDocs(mapsCollection);
+      let tempMaps = mapDocs.docs.map((doc) => ({
         ...doc.data(),
-        postId: doc.id,
+        mapId: doc.id,
       }));
-      console.log("posts", posts);
 
-      // Sort posts from most recent to oldest
-      posts = posts.sort(
+      console.log("tempMaps", tempMaps);
+
+      tempMaps = tempMaps.map((m) => ({
+        ...m,
+        shapes: (m.mapState.shapes =
+          firebaseFeaturesObjectToNormalFeaturesObject(m.mapState.shapes)),
+      }));
+
+      // Sort maps from most recent to oldest
+      tempMaps = tempMaps.sort(
         (a, b) =>
           b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime()
       );
 
-      setPosts(posts);
+      console.log("tempMaps after", tempMaps);
+
+      setMaps(tempMaps);
     };
 
-    fetchPosts();
+    fetchMaps();
   }, []);
 
   const handleSubmitComment = (
-    postIndex: number,
-    postId: string,
+    mapIndex: number,
+    mapId: string,
     comment: string
   ) => {
     if (!currentUser) {
@@ -67,26 +77,26 @@ function FeedPage() {
       return;
     }
 
-    const postDocRef = doc(db, "posts", postId);
+    const mapDocRef = doc(db, "maps", mapId);
     const newComments = [
-      ...posts[postIndex].comments,
+      ...maps[mapIndex].comments,
       {
         username: currentUser.displayName ?? "",
         profilePicUrl: currentUser.photoURL ?? "",
         comment: comment,
       },
     ];
-    updateDoc(postDocRef, {
+    updateDoc(mapDocRef, {
       comments: newComments,
     });
-    setPosts((prevPosts) => {
-      prevPosts[postIndex].comments = newComments;
-      return [...prevPosts];
+    setMaps((prevMaps) => {
+      prevMaps[mapIndex].comments = newComments;
+      return [...prevMaps];
     });
   };
 
-  const handleShowComments = (postIndex: number, postId: string) => {
-    const html = posts[postIndex].comments
+  const handleShowComments = (mapIndex: number, mapId: string) => {
+    const html = maps[mapIndex].comments
       .map(
         (comment) =>
           `<div >
@@ -171,15 +181,15 @@ function FeedPage() {
     }).then((result) => {
       if (result.isConfirmed) {
         const comment = result.value;
-        handleSubmitComment(postIndex, postId, comment);
+        handleSubmitComment(mapIndex, mapId, comment);
       }
     });
   };
 
   const db = getFirestore();
 
-  const handleLikeClick = (postIndex: number, postId: string) => {
-    console.log("liking!", postIndex, postId);
+  const handleLikeClick = (mapIndex: number, mapId: string) => {
+    console.log("liking!", mapIndex, mapId);
     if (!currentUser) {
       Swal.fire({
         icon: "info",
@@ -189,45 +199,47 @@ function FeedPage() {
     }
 
     // like photo
-    if (!posts[postIndex].likes.includes(currentUser.uid)) {
+    if (!maps[mapIndex].likes.includes(currentUser.uid)) {
       console.log("LIKING PHOTO");
-      const postDocRef = doc(db, "posts", postId);
-      const newLikes = [...posts[postIndex].likes, currentUser.uid];
-      updateDoc(postDocRef, {
+      const mapDocRef = doc(db, "maps", mapId);
+      const newLikes = [...maps[mapIndex].likes, currentUser.uid];
+      updateDoc(mapDocRef, {
         likes: newLikes,
       });
-      setPosts((prevPosts) => {
-        prevPosts[postIndex].likes = newLikes;
-        return [...prevPosts];
+      setMaps((prevMaps) => {
+        prevMaps[mapindex].likes = newLikes;
+        return [...prevMaps];
       });
     }
 
     // unlike photo
     else {
       console.log("UNLIKING PHOTO");
-      const postDocRef = doc(db, "posts", postId);
-      const indexOfMyLike = posts[postIndex].likes.indexOf(currentUser.uid);
-      const newLikes = posts[postIndex].likes;
+      const mapDocRef = doc(db, "maps", mapId);
+      const indexOfMyLike = maps[mapIndex].likes.indexOf(currentUser.uid);
+      const newLikes = maps[mapIndex].likes;
       newLikes.splice(indexOfMyLike, 1);
-      updateDoc(postDocRef, {
+      updateDoc(mapDocRef, {
         likes: newLikes,
       });
-      setPosts((prevPosts) => {
-        prevPosts[postIndex].likes = newLikes;
-        return [...prevPosts];
+      setMaps((prevMaps) => {
+        prevMaps[mapIndex].likes = newLikes;
+        return [...prevMaps];
       });
     }
   };
 
   return (
     <div className="pt-20 flex flex-col min-h-screen justify-center items-center">
-      {posts.map((post, index) => (
-        <Post
-          post={post}
-          index={index}
-          handleLikeClick={handleLikeClick}
-          showComments={handleShowComments}
-        />
+      {maps.map((map, index) => (
+        <div key={map.mapId}>
+          <Post
+            map={map}
+            index={index}
+            handleLikeClick={handleLikeClick}
+            showComments={handleShowComments}
+          />
+        </div>
       ))}
     </div>
   );
